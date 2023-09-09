@@ -105,7 +105,9 @@ class MatplotlibRecipe(CythonRecipe):
         free_inc_dir = join(freetype.get_build_dir(arch.arch), 'include')
 
         numpytype = self.get_recipe('numpy', self.ctx)
-        numpy_inc_dir = join(numpytype.get_build_dir(arch.arch), 'build/src.macosx-13.5-arm64-3.10/numpy/core/include/numpy')
+        numpy_inc_dir = join(numpytype.get_build_dir(arch.arch),
+                             'build', 'src.macosx-13.5-arm64-3.10',
+                             'numpy', 'core', 'include', 'numpy')
 
         env['CFLAGS'] += f' -I{free_inc_dir} -I{numpy_inc_dir}'
         env['CXX_ORIG'] = env['CXX']
