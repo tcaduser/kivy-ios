@@ -11,11 +11,12 @@ import shutil
 class MatplotlibRecipe(CythonRecipe):
     version = '3.5.2'
     url = 'https://github.com/matplotlib/matplotlib/archive/v{version}.zip'
-    library='libmatplotlib.a'
+    library = 'libmatplotlib.a'
     depends = ['kiwisolver', 'numpy', 'pillow', 'freetype']
     pre_build_ext = True
-    python_depends = ['cycler', 'fonttools', 'packaging', 'pyparsing', 'python-dateutil']
-    cythonize=False
+    python_depends = ['cycler', 'fonttools', 'packaging',
+                      'pyparsing', 'python-dateutil']
+    cythonize = False
 
     def generate_libraries_pc_files(self, arch):
         """
@@ -78,7 +79,10 @@ class MatplotlibRecipe(CythonRecipe):
         # we make use of the same directory than `XDG_CACHE_HOME`, for our
         # custom library pc files, so we have all the install files that we
         # generate at the same place
-        env['XDG_CACHE_HOME'] = join(self.get_build_dir(arch.arch), 'p4a_files')
+        env['XDG_CACHE_HOME'] = join(
+            self.get_build_dir(arch.arch),
+            'p4a_files'
+        )
         env['PKG_CONFIG_PATH'] = env['XDG_CACHE_HOME']
 
         # creating proper *.pc files for our libraries does not seem enough to
@@ -96,7 +100,6 @@ class MatplotlibRecipe(CythonRecipe):
         env['CXX'] = join(self.ctx.root_dir, "tools", "cpplink")
 
         # setuptools uses CC for compiling and CXX for linking
-        #env['CC'] = env['CXX']
         env['CFLAGS'] += ' -isysroot {}'.format(env['IOSSDKROOT'])
 
         return env
