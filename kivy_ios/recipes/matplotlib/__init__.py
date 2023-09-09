@@ -1,3 +1,15 @@
+'''
+This file is derived from the p4a recipe for matplotlib.
+It is a dependency of matplotlib.
+
+It is a C++ library, and it utilizes the cpplink script to handle
+creating the library files needed for inclusion in an iOS project.
+
+In addition to the original patch files for p4a, additional patch files
+are necessary to prevent duplicate symbols from appearing in the final
+link of a kivy-ios application.
+'''
+
 from kivy_ios.toolchain import CythonRecipe, shprint, ensure_dir
 from os.path import join
 import sh

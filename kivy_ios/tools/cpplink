@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+'''
+C++ libraries are linked using environ['CXX'] compiler. This is different
+from C libraries, which are linked using environ['LDSHARED'].
+
+This script behaves like a C++ compiler or a linker, depending on
+whether its output file ends with '.so'.
+
+If for compiling, this script forwards all arguments in a call to the
+compiler specified as environ['CXX_ORIG'].
+
+If for linking, this script collects the same object and dependent
+library data.  It then generates the same files as liblink would for an
+ld target.
+'''
+
 import sys
 import subprocess
 from os import environ
@@ -23,8 +38,8 @@ if not output.endswith('.so'):
     sys.exit(result.returncode)
 
 
-libs = [ ]
-objects = [ ]
+libs = []
+objects = []
 
 i = 1
 while i < len(sys.argv):
@@ -43,8 +58,10 @@ while i < len(sys.argv):
     if opt in ("-r", "-pipe", "-no-cpp-precomp"):
         continue
 
-    if opt in ("--sysroot", "-isysroot", "-framework", "-undefined",
-            "-macosx_version_min"):
+    if opt in (
+            "--sysroot", "-isysroot", "-framework", "-undefined",
+            "-macosx_version_min"
+            ):
         i += 1
         continue
 
@@ -109,4 +126,3 @@ if min_version_flag == "-ios_version_min":
 call += objects
 print("Linking: {}".format(" ".join(call)))
 subprocess.call(call)
-
