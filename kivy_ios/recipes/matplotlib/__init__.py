@@ -17,13 +17,14 @@ import sh
 
 
 class MatplotlibRecipe(CythonRecipe):
-    version = '3.5.2'
-    url = 'https://github.com/matplotlib/matplotlib/archive/v{version}.zip'
+    version = '3.7.2'
+    url = '/Users/jsanchez/git/matplotlib-3.7.2.orig'
+    #url = 'https://github.com/matplotlib/matplotlib/archive/v{version}.zip'
     library = 'libmatplotlib.a'
-    depends = ['kiwisolver', 'numpy', 'pillow', 'freetype']
+    depends = ['kiwisolver', 'numpy', 'pillow', 'freetype', 'pybind11']
     pre_build_ext = True
     python_depends = ['cycler', 'fonttools', 'packaging',
-                      'pyparsing', 'python-dateutil']
+                      'pyparsing', 'python-dateutil', 'certifi']
     cythonize = False
 
     def generate_libraries_pc_files(self, plat):
@@ -71,7 +72,7 @@ class MatplotlibRecipe(CythonRecipe):
         if self.has_marker("patched"):
             return
         shutil.copyfile(
-            join(abspath(self.recipe_dir), "setup.cfg.template"),
+            join(abspath(self.recipe_dir), "mplsetup.cfg"),
             join(self.get_build_dir(plat), "mplsetup.cfg"),
         )
         self.generate_libraries_pc_files(plat)
