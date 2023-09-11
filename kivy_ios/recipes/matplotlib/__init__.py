@@ -21,10 +21,11 @@ class MatplotlibRecipe(CythonRecipe):
     url = '/Users/jsanchez/git/matplotlib-3.7.2.orig'
     #url = 'https://github.com/matplotlib/matplotlib/archive/v{version}.zip'
     library = 'libmatplotlib.a'
-    depends = ['kiwisolver', 'numpy', 'pillow', 'freetype', 'pybind11']
+    depends = ['kiwisolver', 'numpy', 'pillow', 'freetype']
     pre_build_ext = True
     python_depends = ['cycler', 'fonttools', 'packaging',
-                      'pyparsing', 'python-dateutil', 'certifi']
+                      'pyparsing', 'python-dateutil']
+    hostpython_prerequisites = ['pybind11', 'certifi']
     cythonize = False
 
     def generate_libraries_pc_files(self, plat):

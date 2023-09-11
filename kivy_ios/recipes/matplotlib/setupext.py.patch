@@ -1,6 +1,17 @@
 --- matplotlib-3.7.2.orig/setupext.py	2023-07-05 13:43:01
-+++ matplotlib-3.7.2/setupext.py	2023-09-10 21:37:25
-@@ -415,7 +415,7 @@
++++ matplotlib-3.7.2/setupext.py	2023-09-10 22:52:48
+@@ -17,6 +17,10 @@
+ import urllib.request
+ 
+ from pybind11.setup_helpers import Pybind11Extension
++import pybind11.setup_helpers
++# need to prevent host flags
++pybind11.setup_helpers.MACOS = False
++
+ from setuptools import Distribution, Extension
+ 
+ _log = logging.getLogger(__name__)
+@@ -415,7 +419,7 @@
              "matplotlib.ft2font", [
                  "src/ft2font.cpp",
                  "src/ft2font_wrapper.cpp",
@@ -9,7 +20,7 @@
              ])
          FreeType.add_flags(ext)
          add_numpy_flags(ext)
-@@ -425,19 +425,19 @@
+@@ -425,19 +429,19 @@
          ext = Extension(
              "matplotlib._image", [
                  "src/_image_wrapper.cpp",
@@ -33,7 +44,7 @@
          yield ext
          # qhull
          ext = Extension(
-@@ -506,8 +506,8 @@
+@@ -506,8 +510,8 @@
  
  
  def add_numpy_flags(ext):
